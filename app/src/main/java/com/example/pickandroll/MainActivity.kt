@@ -20,6 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import java.lang.Exception
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var recyclerView: RecyclerView
     private lateinit var gamesListAdapter: GamesListAdapter
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             Game("Simmons Dr", LatLng(38.900497, -77.007507), 8, 7, GenderRule.Mixed),
             Game("First Street Park", LatLng(39.0, -77.0), 8, 1, GenderRule.Mixed),
             Game("Elevate Garage Open", LatLng(38.7, -77.5), 8, 3, GenderRule.Mixed))
-        gamesListAdapter = GamesListAdapter(currentGames, null)
+        gamesListAdapter = GamesListAdapter(currentGames, null, this)
 
         recyclerView = findViewById<RecyclerView>(R.id.list).apply {
             setHasFixedSize(true)

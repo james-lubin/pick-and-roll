@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pick And Roll</string>
+
+    <!-- Games List -->
+    <string name="distance_text">%s mi</string>
+    <string name="participants_text">%s / %s</string>
 </resources>
