@@ -20,7 +20,7 @@ class GamesListAdapter(private val games: List<Game>, private var userLocation: 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val game = games[position]
-        holder.constraintLayout.findViewById<TextView>(R.id.titleTextView).text = game.title
+        holder.constraintLayout.findViewById<TextView>(R.id.gameTitle).text = game.title
 
         val userLocation = this.userLocation
         if (userLocation != null) {
@@ -28,10 +28,10 @@ class GamesListAdapter(private val games: List<Game>, private var userLocation: 
             Location.distanceBetween(userLocation.latitude, userLocation.longitude, game.location.latitude, game.location.longitude, results)
             val distance = metersToMiles(results[0])
             val decFormat = DecimalFormat("#.#")
-            holder.constraintLayout.findViewById<TextView>(R.id.distanceTextView).text = context.resources.getString(R.string.distance_text, decFormat.format(distance))
+            holder.constraintLayout.findViewById<TextView>(R.id.distanceText).text = context.resources.getString(R.string.distance_text, decFormat.format(distance))
         }
 
-        holder.constraintLayout.findViewById<TextView>(R.id.participantsTextView).text = context.resources.getString(
+        holder.constraintLayout.findViewById<TextView>(R.id.participantsText).text = context.resources.getString(
             R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
     }
 

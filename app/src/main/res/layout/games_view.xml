@@ -10,7 +10,7 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/gameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Sample Text"
@@ -19,17 +19,17 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
-        android:id="@+id/distanceTextView"
+        android:id="@+id/distanceText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
         android:layout_marginTop="8dp"
         tools:text="3.2mi"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView"/>
+        app:layout_constraintTop_toBottomOf="@+id/gameTitle"/>
 
     <TextView
-        android:id="@+id/participantsTextView"
+        android:id="@+id/participantsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -37,6 +37,6 @@
         android:layout_marginEnd="150dp"
         tools:text="6/8"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/distanceTextView"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintStart_toEndOf="@+id/distanceText"
+        app:layout_constraintTop_toBottomOf="@+id/gameTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,4 +4,14 @@
     <!-- Games List -->
     <string name="distance_text">%s mi</string>
     <string name="participants_text">%s / %s</string>
+
+    <!-- Game Page -->
+    <string name="game_page_picture">Game Court Picture</string>
+    <string name="competition_level_label">Competition Level</string>
+    <string name="game_page_participants_label">Number of People</string>
+    <string name="game_page_gender">Gender</string>
+    <string name="game_page_distance_label">Distance</string>
+    <string name="game_page_type">Type</string>
+    <string name="game_page_game_length">Game Length</string>
+    <string name="game_page_notes">Notes</string>
 </resources>
