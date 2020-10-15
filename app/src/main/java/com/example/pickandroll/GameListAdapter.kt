@@ -3,7 +3,6 @@ package com.example.pickandroll
 import android.content.Context
 import android.content.Intent
 import android.location.Location
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,19 +11,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import java.text.DecimalFormat
 
-class GameListAdapter(private val games: List<Game>, private var userLocation: Location?, private val context: Context)
+class GameListAdapter(private var userLocation: Location?, private val context: Context)
     : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
 
-    class ViewHolder(val layout: ConstraintLayout, val context: Context) : RecyclerView.ViewHolder(layout), View.OnClickListener {
-        private val TAG = "GameListViewHolder"
-        init{ layout.setOnClickListener(this) }
+    private val games: MutableList<Game> = mutableListOf()
 
-        override fun onClick(view: View?) {
-            val downloadIntent = Intent(context, GamePage::class.java)
-            context.startActivity(downloadIntent)
-
-        }
-    }
+    override fun getItemCount() = games.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val gameView = LayoutInflater.from(parent.context).inflate(R.layout.games_view, parent, false) as ConstraintLayout
@@ -48,9 +40,25 @@ class GameListAdapter(private val games: List<Game>, private var userLocation: L
             R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
     }
 
-    override fun getItemCount() = games.size
+    fun setItems(games: List<Game>) {
+        this.games.clear()
+        this.games.addAll(games)
+        notifyDataSetChanged()
+    }
 
     fun setUserLocation(location: Location) {
         userLocation = location
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(val layout: ConstraintLayout, val context: Context) : RecyclerView.ViewHolder(layout), View.OnClickListener {
+        private val TAG = "GameListViewHolder"
+        init{ layout.setOnClickListener(this) }
+
+        override fun onClick(view: View?) {
+            val downloadIntent = Intent(context, GamePage::class.java)
+            context.startActivity(downloadIntent)
+
+        }
     }
 }

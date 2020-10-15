@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ResolvableApiException
@@ -67,15 +69,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(this)
-        val currentGames = listOf(
-            Game("North Hills Run", LatLng(38.95, -77.935242), 8, 2, GenderRule.Mixed),
-            Game("Fort Totten Pickup", LatLng(38.9, -77.0), 4, 3, GenderRule.Men),
-            Game("Wharf Street Park", LatLng(38.9, -77.1), 10, 5, GenderRule.Women),
-            Game("Georgetown 21", LatLng(38.5, -77.0), 6, 3, GenderRule.Mixed),
-            Game("Simmons Dr", LatLng(38.900497, -77.007507), 8, 7, GenderRule.Mixed),
-            Game("First Street Park", LatLng(39.0, -77.0), 8, 1, GenderRule.Mixed),
-            Game("Elevate Garage Open", LatLng(38.7, -77.5), 8, 3, GenderRule.Mixed))
-        gamesListAdapter = GameListAdapter(currentGames, null, this)
+        val gamesListModel: GamesListViewModel by viewModels()
+        gamesListAdapter = GameListAdapter(null, this)
+        gamesListModel.getGames().observe(this, Observer<List<Game>>{ games ->
+            gamesListAdapter.setItems(games)
+        })
 
         recyclerView = findViewById<RecyclerView>(R.id.gameList).apply {
             setHasFixedSize(true)
@@ -172,7 +170,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun updateViewWithLocation(currentLocation: Location) {
         setMapToCurrentLocation(currentLocation)
         gamesListAdapter.setUserLocation(currentLocation)
-        gamesListAdapter.notifyDataSetChanged()
     }
 
     private fun setMapToCurrentLocation(location: Location?) {
