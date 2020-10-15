@@ -14,4 +14,14 @@
     <string name="game_page_type">Type</string>
     <string name="game_page_game_length">Game Length</string>
     <string name="game_page_notes">Notes</string>
+    <string name="title_activity_game_page">GamePage</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="game_page_claim_spot">Claim Spot</string>
 </resources>
