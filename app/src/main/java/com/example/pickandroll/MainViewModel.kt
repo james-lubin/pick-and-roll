@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
-class GamesListViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
     private val games: MutableLiveData<List<Game>> by lazy {
         MutableLiveData<List<Game>>().also {
             it.value = loadGames()

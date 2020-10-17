@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pickandroll.databinding.ActivityMainBinding
+import com.example.pickandroll.databinding.GamesViewBinding
 import java.text.DecimalFormat
 
 class GameListAdapter(private var userLocation: Location?, private val context: Context)
@@ -19,13 +21,13 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
     override fun getItemCount() = games.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val gameView = LayoutInflater.from(parent.context).inflate(R.layout.games_view, parent, false) as ConstraintLayout
-        return ViewHolder(gameView, context)
+        val binding = GamesViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding, context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
-        holder.layout.findViewById<TextView>(R.id.gameTitle).text = game.title
+        holder.binding.gameTitle.text = game.title
 
         val userLocation = this.userLocation
         if (userLocation != null) {
@@ -33,11 +35,10 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
             Location.distanceBetween(userLocation.latitude, userLocation.longitude, game.location.latitude, game.location.longitude, results)
             val distance = metersToMiles(results[0])
             val decFormat = DecimalFormat("#.#")
-            holder.layout.findViewById<TextView>(R.id.distanceText).text = context.resources.getString(R.string.distance_text, decFormat.format(distance))
+            holder.binding.distanceText.text = context.resources.getString(R.string.distance_text, decFormat.format(distance))
         }
 
-        holder.layout.findViewById<TextView>(R.id.participantsText).text = context.resources.getString(
-            R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
+        holder.binding.participantsText.text = context.resources.getString(R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
     }
 
     fun setItems(games: List<Game>) {
@@ -51,9 +52,8 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val layout: ConstraintLayout, val context: Context) : RecyclerView.ViewHolder(layout), View.OnClickListener {
-        private val TAG = "GameListViewHolder"
-        init{ layout.setOnClickListener(this) }
+    class ViewHolder(val binding: GamesViewBinding, val context: Context) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        init{ binding.root.setOnClickListener(this) }
 
         override fun onClick(view: View?) {
             val downloadIntent = Intent(context, GamePage::class.java)

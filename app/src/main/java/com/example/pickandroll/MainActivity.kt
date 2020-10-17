@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pickandroll.databinding.ActivityMainBinding
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -28,15 +29,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var gamesListAdapter: GameListAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private lateinit var binding: ActivityMainBinding
+
     private var location: Location? = null
     private var map: GoogleMap? = null
-
     private val REQUEST_CHECK_SETTINGS: Int = 1
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setLocationCallback()
         setUpGamesList()
@@ -69,13 +72,13 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(this)
-        val gamesListModel: GamesListViewModel by viewModels()
+        val gamesListModel: MainViewModel by viewModels()
         gamesListAdapter = GameListAdapter(null, this)
         gamesListModel.getGames().observe(this, Observer<List<Game>>{ games ->
             gamesListAdapter.setItems(games)
         })
 
-        recyclerView = findViewById<RecyclerView>(R.id.gameList).apply {
+        recyclerView = binding.gameList.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = gamesListAdapter
