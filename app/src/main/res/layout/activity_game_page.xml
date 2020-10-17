@@ -17,7 +17,7 @@
         android:contentDescription="@string/game_page_picture" />
 
     <TextView
-        android:id="@+id/gamePageTitle"
+        android:id="@+id/gamePageName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Title"
