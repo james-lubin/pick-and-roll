@@ -25,7 +25,6 @@ import com.google.android.gms.tasks.Task
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var recyclerView: RecyclerView
     private lateinit var gamesListAdapter: GameListAdapter
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -78,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             gamesListAdapter.setItems(games)
         })
 
-        recyclerView = binding.gameList.apply {
+        binding.gameList.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = gamesListAdapter
