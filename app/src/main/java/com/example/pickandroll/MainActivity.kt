@@ -10,6 +10,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,17 +24,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 
+private const val PERMISSION_REQUEST_LOCATION_COARSE: Int = 0
+private const val REQUEST_CHECK_SETTINGS: Int = 1
+private const val TAG = "MainActivity"
+
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var gamesListAdapter: GameListAdapter
+class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
-    private lateinit var binding: ActivityMainBinding
 
+    private lateinit var binding: ActivityMainBinding
+    private val mainModel: MainViewModel by viewModels()
     private var location: Location? = null
-    private var map: GoogleMap? = null
-    private val REQUEST_CHECK_SETTINGS: Int = 1
-    private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +43,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         setLocationCallback()
-        setUpGamesList()
-        setUpMap()
         setUpLocation()
     }
 
@@ -64,30 +64,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun setUpMap() {
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
-
-    private fun setUpGamesList() {
-        val viewManager = LinearLayoutManager(this)
-        val gamesListModel: MainViewModel by viewModels()
-        gamesListAdapter = GameListAdapter(null, this)
-        gamesListModel.getGames().observe(this, Observer<List<Game>>{ games ->
-            gamesListAdapter.setItems(games)
-        })
-
-        binding.gameList.apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = gamesListAdapter
-        }
-    }
-
-    override fun onMapReady(map: GoogleMap?) {
-        this.map = map
-    }
-
     private fun setUpLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
@@ -100,17 +76,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 if (newLocation == null) { // Got last known location. In some rare situations this can be null.
                     Log.d(TAG, "setUpLocation: last location is null")
                     fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY, null).addOnSuccessListener { currentLocation: Location? ->
-                        Log.d(TAG, "setUpLocation: got current location")
                         if (currentLocation != null) {
-                            location = currentLocation
-                            updateViewWithLocation(currentLocation)
+                            Log.d(TAG, "setUpLocation: got current location")
+                            mainModel.location.value = currentLocation
                         }
                     }.addOnFailureListener { Log.e(TAG, it.message) }
                      .addOnCanceledListener { Log.w(TAG, "getCurrentLocation canceled.") }
                 } else {
                     Log.d(TAG, "setUpLocation: last location is available")
                     location = newLocation
-                    updateViewWithLocation(newLocation)
+                    mainModel.location.value = newLocation
                 }
             }
         }
@@ -129,8 +104,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (location == null && newLocation != null) {
                         Log.d(TAG, "Updated location to $newLocation")
                         location = newLocation
-                        updateViewWithLocation(newLocation)
-
+                        mainModel.location.value = newLocation
                     }
                 }
             }
@@ -168,20 +142,4 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
-
-    private fun updateViewWithLocation(currentLocation: Location) {
-        setMapToCurrentLocation(currentLocation)
-        gamesListAdapter.setUserLocation(currentLocation)
-    }
-
-    private fun setMapToCurrentLocation(location: Location?) {
-        if (location?.latitude != null) {
-            val locationLatLng = LatLng(location.latitude, location.longitude)
-            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
-        }
-    }
-
 }
-
-private const val PERMISSION_REQUEST_LOCATION_COARSE: Int = 0
-

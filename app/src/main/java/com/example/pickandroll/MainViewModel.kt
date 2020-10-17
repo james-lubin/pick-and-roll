@@ -1,19 +1,18 @@
 package com.example.pickandroll
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel : ViewModel() {
-    private val games: MutableLiveData<List<Game>> by lazy {
-        MutableLiveData<List<Game>>().also {
-            it.value = loadGames()
-        }
+    val games: MutableLiveData<List<Game>> by lazy {
+        MutableLiveData<List<Game>>().also { it.value = loadGames() }
     }
 
-    fun getGames(): LiveData<List<Game>> {
-        return games
+    val location: MutableLiveData<Location?> by lazy {
+        MutableLiveData<Location?>().also { it.value = null }
     }
 
     private fun loadGames(): List<Game> {
