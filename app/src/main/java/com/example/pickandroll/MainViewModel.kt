@@ -11,6 +11,11 @@ class MainViewModel : ViewModel() {
         MutableLiveData<List<Game>>().also { it.value = loadGames() }
     }
 
+    val selectedGame: MutableLiveData<Game> by lazy {
+        val defaultGame = Game("Error", LatLng(0.0, 0.0), 0, 0, GenderRule.Mixed)
+        MutableLiveData<Game>().also { it.value = defaultGame }
+    }
+
     val location: MutableLiveData<Location?> by lazy {
         MutableLiveData<Location?>().also { it.value = null }
     }
@@ -24,7 +29,5 @@ class MainViewModel : ViewModel() {
             Game("Simmons Dr", LatLng(38.900497, -77.007507), 8, 7, GenderRule.Mixed),
             Game("First Street Park", LatLng(39.0, -77.0), 8, 1, GenderRule.Mixed),
             Game("Elevate Garage Open", LatLng(38.7, -77.5), 8, 3, GenderRule.Mixed))
-
     }
-
 }

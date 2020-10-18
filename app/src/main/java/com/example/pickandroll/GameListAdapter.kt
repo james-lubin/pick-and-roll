@@ -1,21 +1,16 @@
 package com.example.pickandroll
 
 import android.content.Context
-import android.content.Intent
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pickandroll.databinding.ActivityMainBinding
 import com.example.pickandroll.databinding.GamesViewBinding
 import java.text.DecimalFormat
 
-class GameListAdapter(private var userLocation: Location?, private val context: Context)
-    : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
+class GameListAdapter(private var userLocation: Location?, private val clickListener: OnClickListener, private val context: Context) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
 
     private val games: MutableList<Game> = mutableListOf()
 
@@ -23,12 +18,13 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = GamesViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, context)
+        return ViewHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
         holder.binding.gameTitle.text = game.title
+        holder.game = game
 
         val userLocation = this.userLocation
         if (userLocation != null) {
@@ -53,11 +49,17 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding: GamesViewBinding, val context: Context) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class ViewHolder(val binding: GamesViewBinding, private val clickListener: OnClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init{ binding.root.setOnClickListener(this) }
+        var game: Game? = null
 
         override fun onClick(view: View?) {
+            game?.let { clickListener.onClick(it) }
             binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
         }
+    }
+
+    interface OnClickListener {
+        fun onClick(game: Game)
     }
 }

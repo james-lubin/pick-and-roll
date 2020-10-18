@@ -19,8 +19,9 @@ import com.google.android.gms.maps.model.LatLng
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
 
-class MainFragment : Fragment(), OnMapReadyCallback {
+class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickListener {
     private val TAG = "MainFragment"
+    private val mainModel: MainViewModel by activityViewModels()
     private lateinit var gamesListAdapter: GameListAdapter
     private lateinit var binding: FragmentMainBinding
     private var map: GoogleMap? = null
@@ -39,9 +40,8 @@ class MainFragment : Fragment(), OnMapReadyCallback {
 
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(context)
-        gamesListAdapter = GameListAdapter(null, requireContext())
+        gamesListAdapter = GameListAdapter(null, this, requireContext())
 
-        val mainModel: MainViewModel by activityViewModels()
         mainModel.games.observe(viewLifecycleOwner, { gamesListAdapter.setItems(it) })
         mainModel.location.observe(viewLifecycleOwner, { updateViewWithLocation(it) })
         binding.gameList.apply {
@@ -76,5 +76,9 @@ class MainFragment : Fragment(), OnMapReadyCallback {
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
             Log.d(TAG, "Set map to: $locationLatLng")
         }
+    }
+
+    override fun onClick(game: Game) {
+        mainModel.selectedGame.value = game
     }
 }
