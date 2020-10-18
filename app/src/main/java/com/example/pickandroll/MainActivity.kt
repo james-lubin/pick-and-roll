@@ -6,9 +6,6 @@ import androidx.activity.viewModels
 import com.example.pickandroll.databinding.ActivityMainBinding
 import io.nlopez.smartlocation.SmartLocation
 
-private const val PERMISSION_REQUEST_LOCATION_COARSE: Int = 0
-private const val REQUEST_CHECK_SETTINGS: Int = 1
-
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity() {
 

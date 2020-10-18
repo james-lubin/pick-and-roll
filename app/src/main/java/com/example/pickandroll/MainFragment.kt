@@ -19,11 +19,6 @@ import com.google.android.gms.maps.model.LatLng
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MainFragment : Fragment(), OnMapReadyCallback {
     private val TAG = "MainFragment"
     private lateinit var gamesListAdapter: GameListAdapter
@@ -45,6 +40,7 @@ class MainFragment : Fragment(), OnMapReadyCallback {
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(context)
         gamesListAdapter = GameListAdapter(null, requireContext())
+
         val mainModel: MainViewModel by activityViewModels()
         mainModel.games.observe(viewLifecycleOwner, { gamesListAdapter.setItems(it) })
         mainModel.location.observe(viewLifecycleOwner, { updateViewWithLocation(it) })

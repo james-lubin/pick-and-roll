@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pickandroll.databinding.ActivityMainBinding
 import com.example.pickandroll.databinding.GamesViewBinding
@@ -56,9 +57,7 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
         init{ binding.root.setOnClickListener(this) }
 
         override fun onClick(view: View?) {
-            val downloadIntent = Intent(context, GamePage::class.java)
-            context.startActivity(downloadIntent)
-
+            binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
         }
     }
 }
