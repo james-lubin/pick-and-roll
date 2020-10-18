@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pickandroll.databinding.FragmentMainBinding
@@ -15,6 +16,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import io.nlopez.smartlocation.OnLocationUpdatedListener
+import io.nlopez.smartlocation.SmartLocation
 
 /**
  * A simple [Fragment] subclass.
@@ -27,36 +30,24 @@ class MainFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentMainBinding
     private var map: GoogleMap? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    companion object {
+        @JvmStatic
+        fun newInstance() = MainFragment().apply {}
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMainBinding.inflate(layoutInflater)
         setUpGamesList()
         setUpMap()
-        // Inflate the layout for this fragment
-        return binding.root//inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment MainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance() = MainFragment().apply {}
+        return binding.root
     }
 
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(context)
         gamesListAdapter = GameListAdapter(null, requireContext())
-        val mainModel: MainViewModel by viewModels()
-        mainModel.games.observe(requireActivity(), { gamesListAdapter.setItems(it) })
-        mainModel.location.observe(requireActivity(), { updateViewWithLocation(it) })
+        val mainModel: MainViewModel by activityViewModels()
+        mainModel.games.observe(viewLifecycleOwner, { gamesListAdapter.setItems(it) })
+        mainModel.location.observe(viewLifecycleOwner, { updateViewWithLocation(it) })
         binding.gameList.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -65,15 +56,14 @@ class MainFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setUpMap() {
-        val mapFragment = activity?.supportFragmentManager?.findFragmentById(R.id.mapFragment)
-        if (mapFragment != null) {
-            mapFragment as SupportMapFragment
-            mapFragment.getMapAsync(this)
-        }
+        val mapFragment = childFragmentManager.findFragmentByTag("mapFragment") as SupportMapFragment
+        Log.d(TAG, "Calling map async")
+        mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
+        Log.d(TAG, "Got map")
     }
 
     private fun updateViewWithLocation(currentLocation: Location?) {
@@ -88,6 +78,7 @@ class MainFragment : Fragment(), OnMapReadyCallback {
         if (location?.latitude != null) {
             val locationLatLng = LatLng(location.latitude, location.longitude)
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
+            Log.d(TAG, "Set map to: $locationLatLng")
         }
     }
 }
