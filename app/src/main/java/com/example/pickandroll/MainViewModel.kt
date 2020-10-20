@@ -11,9 +11,8 @@ class MainViewModel : ViewModel() {
         MutableLiveData<List<Game>>().also { it.value = loadGames() }
     }
 
-    val selectedGame: MutableLiveData<Game> by lazy {
-        val defaultGame = Game("Error", LatLng(0.0, 0.0), 0, 0, GenderRule.Mixed)
-        MutableLiveData<Game>().also { it.value = defaultGame }
+    val selectedGame: MutableLiveData<Game?> by lazy {
+        MutableLiveData<Game?>().also { it.value = null }
     }
 
     val location: MutableLiveData<Location?> by lazy {
