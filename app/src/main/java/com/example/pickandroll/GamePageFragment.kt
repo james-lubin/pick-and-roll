@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.pickandroll.databinding.FragmentGamePageBinding
-import com.example.pickandroll.databinding.FragmentMainBinding
 import java.text.DecimalFormat
 
 class GamePageFragment : Fragment() {
@@ -31,25 +31,26 @@ class GamePageFragment : Fragment() {
     private fun setDetails(selectedGame: Game?) {
         selectedGame ?.let {
             binding.gamePageName.text = it.title
-            binding.competitionLevelText.text = it.competitionLevel?.toString()
+            binding.competitionLevelText.text = it.competitionLevel.toString()
             binding.gamePageParticipants.text = it.curParticipants.toString()
             binding.gamePageGender.text = it.genderRule.toString()
+            binding.gamePageLength.text = it.lengthInHours.toString()
 
             if (it.type != null) {
                 binding.gamePageType.text = it.type.toString()
             }
 
-            if (it.length != null) {
-                binding.gamePageLength.text = it.length.toString()
+            if (it.photoUrl != null) {
+                Glide.with(this).load(it.photoUrl).centerCrop().into(binding.gameImage)
             }
 
             if (it.notes == null) {
-                binding.gamePageNotes.text = "No notes found."
+                binding.gamePageNotes.text = "No notes found." //TODO: Italicize text
             } else {
                 binding.gamePageNotes.text = it.notes
             }
 
-            location ?. let { loc ->
+            location ?.let { loc ->
                 val results = floatArrayOf(0f)
                 Location.distanceBetween(loc.latitude, loc.longitude, it.location.latitude, it.location.longitude, results)
                 val distance = metersToMiles(results[0])
