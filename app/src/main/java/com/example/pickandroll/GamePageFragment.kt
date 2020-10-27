@@ -1,5 +1,6 @@
 package com.example.pickandroll
 
+import android.graphics.Typeface
 import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -47,7 +48,8 @@ class GamePageFragment : Fragment() {
             }
 
             if (it.notes == null) {
-                binding.gamePageNotes.text = "No notes found." //TODO: Italicize text
+                binding.gamePageNotes.text = getString(R.string.no_notes_found)
+                binding.gamePageNotes.setTypeface(null, Typeface.ITALIC)
             } else {
                 binding.gamePageNotes.text = it.notes
             }

@@ -16,13 +16,13 @@
     <string name="game_page_notes">Notes</string>
     <string name="title_activity_game_page">GamePage</string>
     <string name="game_page_claim_spot">Claim Spot</string>
+    <string name="no_notes_found">No notes found.</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="main_fragment_label">Main Fragment</string>
     <string name="game_page_fragment_label">Game Page Fragment</string>
+
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
