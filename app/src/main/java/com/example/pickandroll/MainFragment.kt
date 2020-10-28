@@ -1,5 +1,7 @@
 package com.example.pickandroll
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -76,6 +79,12 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
             val locationLatLng = LatLng(location.latitude, location.longitude)
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
             Log.d(TAG, "Set map to: $locationLatLng")
+
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+                map?.isMyLocationEnabled = true
+                map?.uiSettings?.isMyLocationButtonEnabled = true
+            }
         }
     }
 
