@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pickandroll.databinding.FragmentMainBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -40,7 +41,7 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
 
     private fun setUpGamesList() {
         val viewManager = LinearLayoutManager(context)
-        gamesListAdapter = GameListAdapter(null, this, requireContext())
+        gamesListAdapter = GameListAdapter(null, requireContext(), this)
 
         mainModel.games.observe(viewLifecycleOwner, { gamesListAdapter.setItems(it) })
         mainModel.location.observe(viewLifecycleOwner, { updateViewWithLocation(it) })
@@ -80,5 +81,6 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
 
     override fun onClick(game: Game) {
         mainModel.selectedGame.value = game
+        binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
     }
 }

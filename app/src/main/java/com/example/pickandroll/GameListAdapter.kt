@@ -10,32 +10,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pickandroll.databinding.GamesViewBinding
 import java.text.DecimalFormat
 
-class GameListAdapter(private var userLocation: Location?, private val clickListener: OnClickListener, private val context: Context) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
+class GameListAdapter(private var userLocation: Location?, private val context: Context, private val clickListener: OnClickListener) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
 
     private val games: MutableList<Game> = mutableListOf()
 
     override fun getItemCount() = games.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = GamesViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, clickListener)
+        return ViewHolder.from(parent, clickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
-        holder.binding.gameTitle.text = game.title
-        holder.game = game
 
-        val userLocation = this.userLocation
-        if (userLocation != null) {
-            val results = floatArrayOf(0f)
-            Location.distanceBetween(userLocation.latitude, userLocation.longitude, game.location.latitude, game.location.longitude, results)
-            val distance = metersToMiles(results[0])
+        var distanceText: String? = null
+        userLocation?.let {
+            val distance = getDistance(it, game)
             val decFormat = DecimalFormat("#.#")
-            holder.binding.distanceText.text = context.resources.getString(R.string.distance_text, decFormat.format(distance))
+            distanceText = context.resources.getString(R.string.distance_text, decFormat.format(distance))
         }
 
-        holder.binding.participantsText.text = context.resources.getString(R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
+        val participantsText = context.resources.getString(R.string.participants_text, game.curParticipants.toString(), game.maxParticipants.toString())
+        holder.bind(game, distanceText = distanceText, participantsText = participantsText)
+    }
+
+    private fun getDistance(location: Location, game: Game): Float {
+        val results = floatArrayOf(0f)
+        Location.distanceBetween(location.latitude, location.longitude, game.location.latitude, game.location.longitude, results)
+        return metersToMiles(results[0])
     }
 
     fun setItems(games: List<Game>) {
@@ -49,13 +51,27 @@ class GameListAdapter(private var userLocation: Location?, private val clickList
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding: GamesViewBinding, private val clickListener: OnClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class ViewHolder private constructor(private val binding: GamesViewBinding, private val clickListener: OnClickListener)
+        : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         init{ binding.root.setOnClickListener(this) }
         var game: Game? = null
 
+        companion object {
+            fun from(parent: ViewGroup, clickListener: OnClickListener): ViewHolder {
+                val binding = GamesViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return ViewHolder(binding, clickListener)
+            }
+        }
+
+        fun bind(game: Game, participantsText: String, distanceText: String?) {
+            this.game = game
+            binding.gameTitle.text = game.title
+            binding.distanceText.text = distanceText
+            binding.participantsText.text = participantsText
+        }
+
         override fun onClick(view: View?) {
             game?.let { clickListener.onClick(it) }
-            binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
         }
     }
 
