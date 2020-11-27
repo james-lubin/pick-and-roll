@@ -1,18 +1,26 @@
 package com.example.pickandroll
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.pickandroll.databinding.ActivityMainBinding
 import io.nlopez.smartlocation.SmartLocation
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(ActivityMainBinding.inflate(layoutInflater).root)
         val viewModel: MainViewModel by viewModels()
-        SmartLocation.with(this).location().oneFix().start { viewModel.location.value = it }
+
+        SmartLocation.with(this).location().start {
+            viewModel.updateLocation(it)
+        }
+    }
+
+    override fun onDestroy() {
+        SmartLocation.with(this).location().stop();
+        super.onDestroy()
     }
 }

@@ -19,6 +19,12 @@ class MainViewModel : ViewModel() {
         MutableLiveData<Location?>().also { it.value = null }
     }
 
+    fun updateLocation(location: Location?) {
+        //if (location == null) {
+            this.location.value = location
+        //}
+    }
+
     private fun loadGames(): List<Game> {
         return listOf(
             Game("North Hills Run", LatLng(38.95, -77.935242), 8, 2, genderRule = GenderRule.Men, lengthInHours = 5, type = GameType.FiveOnFive),
