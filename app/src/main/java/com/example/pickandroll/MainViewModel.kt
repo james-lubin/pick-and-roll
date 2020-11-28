@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel : ViewModel() {
-    val games: MutableLiveData<List<Game>> by lazy {
-        MutableLiveData<List<Game>>().also { it.value = loadGames() }
-    }
+    val games: MutableLiveData<List<Game>> =
+        MutableLiveData<List<Game>>().also {
+            it.value = listOf()
+            it.postValue(loadGames())
+        }
+
 
     val selectedGame: MutableLiveData<Game?> by lazy {
         MutableLiveData<Game?>().also { it.value = null }

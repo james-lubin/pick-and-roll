@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 private const val TAG = "MainFragment"
 
@@ -39,7 +40,10 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
         val viewManager = LinearLayoutManager(context)
         gamesListAdapter = GameListAdapter(null, requireContext(), this)
 
-        mainModel.games.observe(viewLifecycleOwner, { gamesListAdapter.setItems(it) })
+        mainModel.games.observe(viewLifecycleOwner, {
+            gamesListAdapter.setItems(it)
+            updateMarkers(it)
+        })
         mainModel.location.observe(viewLifecycleOwner, { updateViewWithLocation(it) })
         binding.gameList.apply {
             setHasFixedSize(true)
@@ -48,21 +52,28 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
         }
     }
 
+    private fun updateMarkers(games: List<Game>) {
+        for(curGame in games) {
+            Log.i(TAG, "updateMarkers: Adding marker for ${curGame.title} to ${curGame.location}")
+            map?.addMarker(MarkerOptions()
+                .position(curGame.location)
+                .title(curGame.title)
+            )
+        }
+    }
+
     private fun setUpMap() {
         val mapFragment = childFragmentManager.findFragmentByTag("mapFragment") as SupportMapFragment
-        Log.d(TAG, "Calling map async")
         mapFragment.getMapAsync(this)
     }
 
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
-        Log.d(TAG, "Got map")
     }
 
     private fun updateViewWithLocation(currentLocation: Location?) {
-        Log.d(TAG, "updateViewWithLocation: called")
         currentLocation?.let {
-            Log.d(TAG, "updateViewWithLocation: location is non null")
+            Log.d(TAG, "updateViewWithLocation: Setting map to: $currentLocation")
             setMapToCurrentLocation(it)
             gamesListAdapter.setUserLocation(it) }
     }
@@ -71,10 +82,9 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
         if (location?.latitude != null) {
             val locationLatLng = LatLng(location.latitude, location.longitude)
             map?.moveCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 15f))
-            Log.d(TAG, "Set map to: $locationLatLng")
+            Log.i(TAG, "Moving camera to: $locationLatLng")
 
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 map?.isMyLocationEnabled = true
                 map?.uiSettings?.isMyLocationButtonEnabled = true
             }
