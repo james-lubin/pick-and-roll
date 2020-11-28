@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pickandroll.databinding.FragmentMainBinding
@@ -20,20 +19,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import io.nlopez.smartlocation.OnLocationUpdatedListener
-import io.nlopez.smartlocation.SmartLocation
+
+private const val TAG = "MainFragment"
 
 class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickListener {
-    private val TAG = "MainFragment"
     private val mainModel: MainViewModel by activityViewModels()
     private lateinit var gamesListAdapter: GameListAdapter
     private lateinit var binding: FragmentMainBinding
     private var map: GoogleMap? = null
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = MainFragment().apply {}
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMainBinding.inflate(layoutInflater)
