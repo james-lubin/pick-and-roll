@@ -20,9 +20,9 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateLocation(location: Location?) {
-        //if (location == null) {
+        if (location != null) {
             this.location.value = location
-        //}
+        }
     }
 
     private fun loadGames(): List<Game> {
