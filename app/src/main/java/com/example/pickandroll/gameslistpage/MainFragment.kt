@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.gameslistpage
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pickandroll.Game
 import com.example.pickandroll.databinding.FragmentMainBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.gamepage
 
 import android.graphics.Typeface
 import android.location.Location
@@ -10,7 +10,11 @@ import android.view.ViewGroup
 import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.example.pickandroll.Game
+import com.example.pickandroll.R
 import com.example.pickandroll.databinding.FragmentGamePageBinding
+import com.example.pickandroll.gameslistpage.MainViewModel
+import com.example.pickandroll.metersToMiles
 import java.text.DecimalFormat
 
 class GamePageFragment : Fragment() {
@@ -43,7 +47,7 @@ class GamePageFragment : Fragment() {
             }
 
             if (it.photoUrl != null) {
-                binding.gameImage.setPadding(0);
+                binding.gameImage.setPadding(0)
                 Glide.with(this).load(it.photoUrl).centerCrop().into(binding.gameImage)
             }
 

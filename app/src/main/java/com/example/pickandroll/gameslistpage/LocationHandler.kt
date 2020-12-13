@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.gameslistpage
 
 import android.Manifest
 import android.content.Context

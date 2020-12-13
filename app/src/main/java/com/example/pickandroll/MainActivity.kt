@@ -7,8 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.platform.setContent
 import androidx.core.app.ActivityCompat
-import com.example.pickandroll.databinding.ActivityMainBinding
+import com.example.pickandroll.gameslistpage.LocationHandler
+import com.example.pickandroll.gameslistpage.MainViewModel
+import com.example.pickandroll.gameslistpage.PERMISSION_REQUEST_LOCATION_FINE
+import com.example.pickandroll.splashpage.SplashPage
+import com.example.pickandroll.ui.PickAndRollTheme
 
 private const val TAG : String = "MainActivity"
 
@@ -17,7 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(ActivityMainBinding.inflate(layoutInflater).root)
+        //setContentView(ActivityMainBinding.inflate(layoutInflater).root)
+        setContent {
+            PickAndRollTheme {
+                SplashPage()
+            }
+        }
     }
 
     override fun onResume() {

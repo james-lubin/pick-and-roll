@@ -1,0 +1,41 @@
+package com.example.pickandroll.splashpage
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.pickandroll.ui.Button
+
+@ExperimentalLayout
+@Composable
+fun SplashPage() {
+    Surface(
+        color = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.onBackground,
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+    ) {
+        Column(modifier = Modifier
+                .wrapContentWidth(Alignment.CenterHorizontally)
+                .wrapContentHeight(Alignment.CenterVertically)) {
+            Text("I want to...",
+                fontSize = 36.sp,
+                color = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(20.dp)
+            )
+
+            Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
+                Button("Join Game")
+                Button("Start Game", true)
+            }
+        }
+    }
+}

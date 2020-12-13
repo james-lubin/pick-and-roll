@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.gamepage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

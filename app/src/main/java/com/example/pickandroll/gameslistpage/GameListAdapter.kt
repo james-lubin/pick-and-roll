@@ -1,13 +1,15 @@
-package com.example.pickandroll
+package com.example.pickandroll.gameslistpage
 
 import android.content.Context
 import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pickandroll.Game
+import com.example.pickandroll.R
 import com.example.pickandroll.databinding.GamesViewBinding
+import com.example.pickandroll.metersToMiles
 import java.text.DecimalFormat
 
 class GameListAdapter(private var userLocation: Location?, private val context: Context, private val clickListener: OnClickListener) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
