@@ -2,7 +2,10 @@ package com.example.pickandroll.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.ButtonConstants
+import androidx.compose.material.ButtonConstants.defaultButtonColors
+import androidx.compose.material.ButtonConstants.defaultElevation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,18 +15,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Button(text: String, isVariant: Boolean = false) {
+fun ThemeButton(text: String, isVariant: Boolean = false, onClick: () -> Unit) {
     var backgroundColor = MaterialTheme.colors.primary
     if (isVariant) {
         backgroundColor = MaterialTheme.colors.secondary
     }
 
-    androidx.compose.material.Button(
-        onClick = {},
+    Button(
+        onClick = onClick,
         shape = RoundedCornerShape(25),
-        colors = ButtonConstants.defaultButtonColors(
+        elevation = defaultElevation(defaultElevation = 6.dp, pressedElevation = 10.dp),
+        colors = defaultButtonColors(
             backgroundColor = backgroundColor,
-            contentColor = MaterialTheme.colors.onPrimary),
+            contentColor = MaterialTheme.colors.onPrimary
+        ),
         modifier = Modifier
             .width(300.dp)
             .height(60.dp)

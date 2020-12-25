@@ -9,10 +9,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.setContent
 import androidx.core.app.ActivityCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.pickandroll.gameslistpage.GamesList
 import com.example.pickandroll.gameslistpage.LocationHandler
 import com.example.pickandroll.gameslistpage.MainViewModel
 import com.example.pickandroll.gameslistpage.PERMISSION_REQUEST_LOCATION_FINE
 import com.example.pickandroll.splashpage.SplashPage
+import com.example.pickandroll.ui.NavGraph
 import com.example.pickandroll.ui.PickAndRollTheme
 
 private const val TAG : String = "MainActivity"
@@ -22,10 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(ActivityMainBinding.inflate(layoutInflater).root)
         setContent {
             PickAndRollTheme {
-                SplashPage()
+                NavGraph()
             }
         }
     }
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_LOCATION_FINE) {
             if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {  // Permission has been granted
                 locationHandler.startLocationUpdates()

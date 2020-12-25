@@ -9,11 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pickandroll.ui.Button
+import com.example.pickandroll.ui.ThemeButton
+const val TAG = "SplashPage"
 
-@ExperimentalLayout
 @Composable
-fun SplashPage() {
+fun SplashPage(viewGames: () -> Unit, createGame: () -> Unit) {
     Surface(
         color = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
@@ -33,8 +33,8 @@ fun SplashPage() {
             )
 
             Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                Button("Join Game")
-                Button("Start Game", true)
+                ThemeButton("Join Game") { viewGames() }
+                ThemeButton("Create A Game", true) { createGame() }
             }
         }
     }
