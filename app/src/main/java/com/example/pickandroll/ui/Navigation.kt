@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.example.pickandroll.creategame.CreateGame
 import com.example.pickandroll.gameslistpage.GamesList
 import com.example.pickandroll.splashpage.SplashPage
 

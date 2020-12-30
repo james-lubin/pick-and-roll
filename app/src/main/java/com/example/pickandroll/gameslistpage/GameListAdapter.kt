@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pickandroll.Game
+import com.example.pickandroll.game.Game
 import com.example.pickandroll.R
 import com.example.pickandroll.databinding.GamesViewBinding
 import com.example.pickandroll.metersToMiles

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.example.pickandroll.Game
+import com.example.pickandroll.game.Game
 import com.example.pickandroll.R
 import com.example.pickandroll.databinding.FragmentGamePageBinding
 import com.example.pickandroll.gameslistpage.MainViewModel

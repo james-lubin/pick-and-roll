@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pickandroll.Game
+import com.example.pickandroll.game.Game
 import com.example.pickandroll.databinding.FragmentMainBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -94,6 +94,6 @@ class MainFragment : Fragment(), OnMapReadyCallback, GameListAdapter.OnClickList
 
     override fun onClick(game: Game) {
         mainModel.selectedGame.value = game
-        binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
+//        binding.root.findNavController().navigate(MainFragmentDirections.actionMainFragmentToGamePageFragment())
     }
 }

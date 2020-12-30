@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pickandroll.ui.ThemeButton
+import com.example.pickandroll.ui.PrimaryButton
 const val TAG = "SplashPage"
 
 @Composable
@@ -33,8 +33,8 @@ fun SplashPage(viewGames: () -> Unit, createGame: () -> Unit) {
             )
 
             Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                ThemeButton("Join Game") { viewGames() }
-                ThemeButton("Create A Game", true) { createGame() }
+                PrimaryButton("Join Game") { viewGames() }
+                PrimaryButton("Create A Game", true) { createGame() }
             }
         }
     }

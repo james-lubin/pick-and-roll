@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,8 +19,7 @@ import com.example.pickandroll.gameslistpage.LocationHandler
 import com.example.pickandroll.gameslistpage.MainViewModel
 import com.example.pickandroll.gameslistpage.PERMISSION_REQUEST_LOCATION_FINE
 import com.example.pickandroll.splashpage.SplashPage
-import com.example.pickandroll.ui.NavGraph
-import com.example.pickandroll.ui.PickAndRollTheme
+import com.example.pickandroll.ui.*
 
 private const val TAG : String = "MainActivity"
 
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PickAndRollTheme {
-                NavGraph()
+//                NavGraph()
+                NavGraph(Destinations.GAMES_LIST_ROUTE) //TODO: replace with this line when done testing
             }
         }
     }

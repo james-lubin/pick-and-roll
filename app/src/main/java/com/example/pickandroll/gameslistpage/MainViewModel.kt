@@ -3,10 +3,10 @@ package com.example.pickandroll.gameslistpage
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pickandroll.CompetitionLevel
-import com.example.pickandroll.Game
-import com.example.pickandroll.GameType
-import com.example.pickandroll.GenderRule
+import com.example.pickandroll.game.CompetitionLevel
+import com.example.pickandroll.game.Game
+import com.example.pickandroll.game.GameType
+import com.example.pickandroll.game.GenderRule
 import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel : ViewModel() {

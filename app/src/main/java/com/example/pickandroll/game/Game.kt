@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.game
 
 import com.google.android.gms.maps.model.LatLng
 
