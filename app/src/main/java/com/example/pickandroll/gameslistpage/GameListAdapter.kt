@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pickandroll.game.Game
 import com.example.pickandroll.R
 import com.example.pickandroll.databinding.GamesViewBinding
-import com.example.pickandroll.metersToMiles
+import com.example.pickandroll.game.getDistance
 import java.text.DecimalFormat
 
 class GameListAdapter(private var userLocation: Location?, private val context: Context, private val clickListener: OnClickListener) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
@@ -36,11 +36,7 @@ class GameListAdapter(private var userLocation: Location?, private val context: 
         holder.bind(game, distanceText = distanceText, participantsText = participantsText)
     }
 
-    private fun getDistance(location: Location, game: Game): Float {
-        val results = floatArrayOf(0f)
-        Location.distanceBetween(location.latitude, location.longitude, game.location.latitude, game.location.longitude, results)
-        return metersToMiles(results[0])
-    }
+
 
     fun setItems(games: List<Game>) {
         this.games.clear()

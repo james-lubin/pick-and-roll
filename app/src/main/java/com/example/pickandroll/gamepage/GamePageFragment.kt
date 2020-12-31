@@ -14,7 +14,7 @@ import com.example.pickandroll.game.Game
 import com.example.pickandroll.R
 import com.example.pickandroll.databinding.FragmentGamePageBinding
 import com.example.pickandroll.gameslistpage.MainViewModel
-import com.example.pickandroll.metersToMiles
+import com.example.pickandroll.game.metersToMiles
 import java.text.DecimalFormat
 
 class GamePageFragment : Fragment() {

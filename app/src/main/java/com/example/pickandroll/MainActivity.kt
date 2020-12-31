@@ -14,10 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pickandroll.gameslistpage.GamesList
-import com.example.pickandroll.gameslistpage.LocationHandler
-import com.example.pickandroll.gameslistpage.MainViewModel
-import com.example.pickandroll.gameslistpage.PERMISSION_REQUEST_LOCATION_FINE
+import com.example.pickandroll.gameslistpage.*
 import com.example.pickandroll.splashpage.SplashPage
 import com.example.pickandroll.ui.*
 
@@ -30,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PickAndRollTheme {
-//                NavGraph()
-                NavGraph(Destinations.GAMES_LIST_ROUTE) //TODO: replace with this line when done testing
+                val gamesListViewModel: GamesListViewModel by viewModels()
+                NavGraph(gamesListViewModel = gamesListViewModel)
+//                NavGraph(Destinations.GAMES_LIST_ROUTE) //TODO: replace with this line when done testing
             }
         }
     }
@@ -62,17 +60,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeLocation() {
+        Log.d(TAG, "initializeLocation: called.")
         locationHandler = LocationHandler(this, requestPermission = ::requestPermission, ::updateLocation)
         val location: Location? = locationHandler.getLastKnownLocation()
         if (location != null) {
+            Log.d(TAG, "initializeLocation: Location found, updating location.")
             updateLocation(location)
         } else {
+            Log.d(TAG, "initializeLocation: Location is null, starting location updates.")
             locationHandler.startLocationUpdates()
         }
     }
 
     private fun updateLocation(location: Location) {
-        val viewModel: MainViewModel by viewModels()
+        Log.d(TAG, "updateLocation: Updating location with location: $location")
+        val viewModel: MainViewModel by viewModels() //TODO: delete this when compose migration is done
+        val gamesListViewModel: GamesListViewModel by viewModels()
         viewModel.updateLocation(location)
+        gamesListViewModel.updateLocation(location)
     }
 }

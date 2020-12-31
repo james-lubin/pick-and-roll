@@ -49,6 +49,7 @@ class LocationHandler(
     }
 
     fun startLocationUpdates() {
+        Log.d(TAG, "startLocationUpdates: Checking permissions")
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "startLocationUpdates: Location permission not granted. Requesting permissions.")
             requestPermission()

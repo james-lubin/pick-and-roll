@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.loadVectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pickandroll.R
+import java.text.DecimalFormat
 
 const val TAG = "PickAndRollButton"
 
@@ -27,25 +32,6 @@ fun PrimaryButton(
         backgroundColor = MaterialTheme.colors.secondary
     }
 
-    val constraints = ConstraintSet {
-        val left = createRefFor("left")
-        val text = createRefFor("text")
-        val right = createRefFor("right")
-        val margin = 20.dp
-
-        constrain(text) {
-            centerTo(parent)
-        }
-        constrain(left) {
-            start.linkTo(parent.start)
-            end.linkTo(text.start)
-        }
-        constrain(right) {
-            start.linkTo(text.end)
-            end.linkTo(parent.end)
-        }
-    }
-
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(25),
@@ -58,14 +44,20 @@ fun PrimaryButton(
             .width(300.dp)
             .height(60.dp)
     ) {
-        ConstraintLayout(constraints) {
-            Text(text = buttonText, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.layoutId("text"))
-        }
+        Text(
+            text = buttonText,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.layoutId("text"))
     }
 }
 
+/*TODO: Remove duplicate logic from PrimaryButton by using the slot pattern,
+TODO: on first attempt, this worked except for constraintLayout
+*/
 @Composable
-fun GameButton(gameTitle: String, distance: Float, curParticipants: Int, maxParticipants: Int) {
+fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxParticipants: Int) {
     val backgroundColor = MaterialTheme.colors.primary
     val participantsTag = "participants"
     val textTag = "text"
@@ -75,14 +67,12 @@ fun GameButton(gameTitle: String, distance: Float, curParticipants: Int, maxPart
         val participantsRef = createRefFor(participantsTag)
         val textRef = createRefFor(textTag)
         val distanceRef = createRefFor(distanceTag)
-        val margin = 50.dp
 
         constrain(textRef) {
             centerTo(parent)
         }
         constrain(participantsRef) {
-            start.linkTo(parent.absoluteLeft)
-            end.linkTo(textRef.start, margin)
+            end.linkTo(textRef.start, 35.dp) //TODO: fix spacing by linking the start to the parent's start (currently not working, bugged?)
             centerVerticallyTo(parent)
         }
 
@@ -110,8 +100,19 @@ fun GameButton(gameTitle: String, distance: Float, curParticipants: Int, maxPart
                 denominator = maxParticipants.toString(),
                 modifier = Modifier.layoutId(participantsTag)
             )
-            Text(text = gameTitle, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.layoutId(textTag))
-            Distance(distance = distance, modifier = Modifier.layoutId(distanceTag))
+            Text(
+                text = gameTitle,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .layoutId(textTag)
+                    .width(130.dp)
+            )
+            if(distance != null) {
+                Distance(distance = distance, modifier = Modifier.layoutId(distanceTag))
+            }
         }
     }
 }
@@ -129,9 +130,11 @@ fun Fraction(numerator: String, denominator: String, modifier: Modifier = Modifi
 }
 
 @Composable
-fun Distance(distance: Float, modifier: Modifier = Modifier, isMetric: Boolean = false) {
+fun Distance(distance: Float, modifier: Modifier = Modifier, isMetric: Boolean = false) { //TODO: make metric an ambient
+    val decFormat = remember { DecimalFormat("#.#") }
+    val distanceText = remember { decFormat.format(distance) }
     Row(verticalAlignment = Alignment.Bottom, modifier = modifier) {
-        Text(text = distance.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+        Text(text = distanceText, fontSize = 14.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.width(3.dp))
         if (isMetric) {
             Text("km", fontSize = 12.sp)
