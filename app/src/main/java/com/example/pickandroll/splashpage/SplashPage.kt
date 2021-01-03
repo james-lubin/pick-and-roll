@@ -14,7 +14,7 @@ const val TAG = "SplashPage"
 
 @Composable
 fun SplashPage(viewGames: () -> Unit, createGame: () -> Unit) {
-    Surface(
+    Surface( //TODO: extract out this background somehow since every page will need it duplicate[1]
         color = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
         modifier = Modifier
