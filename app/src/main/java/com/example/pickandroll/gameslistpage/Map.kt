@@ -1,5 +1,8 @@
 package com.example.pickandroll.gameslistpage
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +16,7 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.platform.AmbientLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.example.pickandroll.R
@@ -41,6 +45,7 @@ private fun MapViewContainer(
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val context = AmbientContext.current
 
     AndroidView(
         modifier = modifier
@@ -55,6 +60,7 @@ private fun MapViewContainer(
 
             if (getDistance(googleMap.cameraPosition.target, position) > 1.0) { //only update position if it is far enough
                 setMapToCurrentLocation(position, googleMap)
+                addMyLocationButton(googleMap, context)
             }
         }
     }
@@ -104,9 +110,11 @@ private fun rememberMapLifecycleObserver(mapView: MapView): LifecycleEventObserv
 private fun setMapToCurrentLocation(position: LatLng, map: GoogleMap) {
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, InitialZoom))
     Log.i(TAG, "Moving camera to: $position")
+}
 
-//    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//        map?.isMyLocationEnabled = true
-//        map?.uiSettings?.isMyLocationButtonEnabled = true
-//    }
+private fun addMyLocationButton(map: GoogleMap, context: Context) {
+    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        map.isMyLocationEnabled = true
+        map.uiSettings?.isMyLocationButtonEnabled = true
+    }
 }
