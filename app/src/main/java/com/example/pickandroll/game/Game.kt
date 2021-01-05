@@ -7,6 +7,7 @@ enum class CompetitionLevel { Beginner, Medium, Hard, SemiPro, Pro }
 enum class GameType { FreePlay, FiveOnFive, TwentyOne, Horse }
 
 data class Game (
+    val id: String,
     val title: String,
     val location: LatLng,
     val maxParticipants: Int,

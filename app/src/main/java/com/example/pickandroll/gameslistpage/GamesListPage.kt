@@ -3,7 +3,6 @@ package com.example.pickandroll.gameslistpage
 import android.location.Location
 import android.location.LocationManager
 import android.util.Log
-import android.widget.Space
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -23,7 +22,7 @@ import com.example.pickandroll.ui.SettingsButton
 private const val TAG = "GamesListPage"
 
 @Composable
-fun GamesListPage(viewModel: GamesListViewModel) {
+fun GamesListPage(viewModel: GamesListViewModel, viewGame: (String) -> Unit) {
     Surface( //TODO: extract out this background somehow since every page will need it duplicate[1]
         color = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
@@ -31,12 +30,12 @@ fun GamesListPage(viewModel: GamesListViewModel) {
             .fillMaxHeight()
             .fillMaxWidth()
     ) {
-        GamesListContent(viewModel = viewModel)
+        GamesListContent(viewModel = viewModel, viewGame = viewGame)
     }
 }
 
 @Composable
-fun GamesListContent(viewModel: GamesListViewModel) {
+fun GamesListContent(viewModel: GamesListViewModel, viewGame: (String) -> Unit) {
     val location: Location? by viewModel.location.observeAsState()
     val games: List<Game>? by viewModel.games.observeAsState()
     var mapLocation = remember { Location(LocationManager.PASSIVE_PROVIDER) } //should be init to lat/lng (0.0, 0.0)
@@ -57,20 +56,24 @@ fun GamesListContent(viewModel: GamesListViewModel) {
                 games?.let { Map(mapLocation, it) } //need to use let because of games property delegation
             }
             Spacer(modifier = Modifier.size(30.dp))
-            games?.let { GamesList(it, location) }
+            games?.let { GamesList(it, location, viewModel, viewGame) }
         }
     }
 }
 
 @Composable
-fun GamesList(games: List<Game>, userLocation: Location?) {
+fun GamesList(games: List<Game>, userLocation: Location?, viewModel: GamesListViewModel, viewGame: (String) -> Unit) {
     ScrollableColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
         for (game in games) {
             var distance: Float? = null
             if (userLocation != null) {
                 distance = getDistance(userLocation, game)
             }
-            GameButton(game.title, distance, game.curParticipants, game.maxParticipants)
+            GameButton(game.title, distance, game.curParticipants, game.maxParticipants) {
+                Log.i(TAG, "GamesList: $game clicked.")
+                viewModel.selectedGame.value = game
+                viewGame(game.id)
+            }
         }
     }
 }

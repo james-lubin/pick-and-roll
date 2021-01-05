@@ -13,7 +13,7 @@ import com.example.pickandroll.ui.PrimaryButton
 const val TAG = "SplashPage"
 
 @Composable
-fun SplashPage(viewGames: () -> Unit, createGame: () -> Unit) {
+fun SplashPage(viewAllGames: () -> Unit, createGame: () -> Unit) {
     Surface( //TODO: extract out this background somehow since every page will need it duplicate[1]
         color = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
@@ -33,7 +33,7 @@ fun SplashPage(viewGames: () -> Unit, createGame: () -> Unit) {
             )
 
             Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                PrimaryButton("Join Game") { viewGames() }
+                PrimaryButton("Join Game") { viewAllGames() }
                 PrimaryButton("Create A Game", true) { createGame() }
             }
         }

@@ -58,7 +58,7 @@ fun PrimaryButton(
 TODO: on first attempt, this worked except that I couldnt get constraintLayout to layout the composables as they should've been laid out
 */
 @Composable
-fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxParticipants: Int) {
+fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxParticipants: Int, onClick: () -> Unit) {
     val backgroundColor = MaterialTheme.colors.primary
     val participantsTag = "participants"
     val textTag = "text"
@@ -84,7 +84,7 @@ fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxPar
     }
 
     Button(
-        onClick = { Log.d(TAG, "$gameTitle clicked.") },
+        onClick = { onClick() },
         shape = RoundedCornerShape(25),
         elevation = ButtonDefaults.elevation(defaultElevation = 6.dp, pressedElevation = 10.dp),
         colors = ButtonDefaults.buttonColors(

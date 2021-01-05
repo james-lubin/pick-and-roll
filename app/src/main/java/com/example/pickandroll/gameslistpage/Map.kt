@@ -37,11 +37,7 @@ private const val INITIAL_ZOOM = 15f
 @Composable
 fun Map(location: Location, games: List<Game>, modifier: Modifier = Modifier) {
     val mapView = rememberMapViewWithLifecycle()
-    var gamesList = games
-    if (gamesList == null) {
-        gamesList = listOf()
-    }
-    MapViewContainer(mapView, location.latitude, location.longitude, gamesList, modifier)
+    MapViewContainer(mapView, location.latitude, location.longitude, games, modifier)
 }
 
 @Composable
