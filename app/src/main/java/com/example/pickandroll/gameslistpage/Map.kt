@@ -20,21 +20,28 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.example.pickandroll.R
+import com.example.pickandroll.game.Game
 import com.example.pickandroll.game.getDistance
+import com.example.pickandroll.ui.MAIN_ELEMENT_SIZE
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
 import com.google.maps.android.ktx.awaitMap
 
 private const val TAG = "Map"
-private const val InitialZoom = 15f
+private const val INITIAL_ZOOM = 15f
 
 @Composable
-fun Map(location: Location, modifier: Modifier = Modifier) {
+fun Map(location: Location, games: List<Game>, modifier: Modifier = Modifier) {
     val mapView = rememberMapViewWithLifecycle()
-    MapViewContainer(mapView, location.latitude, location.longitude, modifier)
+    var gamesList = games
+    if (gamesList == null) {
+        gamesList = listOf()
+    }
+    MapViewContainer(mapView, location.latitude, location.longitude, gamesList, modifier)
 }
 
 @Composable
@@ -42,6 +49,7 @@ private fun MapViewContainer(
     map: MapView,
     latitude: Double,
     longitude: Double,
+    games: List<Game>,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -49,7 +57,7 @@ private fun MapViewContainer(
 
     AndroidView(
         modifier = modifier
-            .size(350.dp) //TODO: extract this into a games list element constant
+            .size(MAIN_ELEMENT_SIZE)
             .clip(RoundedCornerShape(5))
             .shadow(elevation = 6.dp),
         viewBlock = { map }) { mapView ->
@@ -59,8 +67,9 @@ private fun MapViewContainer(
             val position = LatLng(latitude, longitude)
 
             if (getDistance(googleMap.cameraPosition.target, position) > 1.0) { //only update position if it is far enough
-                setMapToCurrentLocation(position, googleMap)
+                setMapToCurrentLocation(googleMap, position)
                 addMyLocationButton(googleMap, context)
+                updateMarkers(googleMap, games)
             }
         }
     }
@@ -107,8 +116,8 @@ private fun rememberMapLifecycleObserver(mapView: MapView): LifecycleEventObserv
         }
     }
 
-private fun setMapToCurrentLocation(position: LatLng, map: GoogleMap) {
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, InitialZoom))
+private fun setMapToCurrentLocation(map: GoogleMap, position: LatLng) {
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, INITIAL_ZOOM))
     Log.i(TAG, "Moving camera to: $position")
 }
 
@@ -116,5 +125,16 @@ private fun addMyLocationButton(map: GoogleMap, context: Context) {
     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
         map.isMyLocationEnabled = true
         map.uiSettings?.isMyLocationButtonEnabled = true
+    }
+}
+
+private fun updateMarkers(map: GoogleMap, games: List<Game>) {
+    for(curGame in games) {
+        Log.i(TAG, "updateMarkers: Adding marker for ${curGame.title} to ${curGame.location}")
+        map.addMarker(
+            MarkerOptions()
+            .position(curGame.location)
+            .title(curGame.title)
+        )
     }
 }

@@ -42,7 +42,7 @@ fun PrimaryButton(
             contentColor = MaterialTheme.colors.onPrimary
         ),
         modifier = Modifier
-            .width(350.dp)
+            .width(MAIN_ELEMENT_SIZE)
             .height(60.dp)
     ) {
         Text(
@@ -92,7 +92,7 @@ fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxPar
             contentColor = MaterialTheme.colors.onPrimary
         ),
         modifier = Modifier
-            .width(350.dp)
+            .width(MAIN_ELEMENT_SIZE)
             .height(60.dp)
     ) {
         ConstraintLayout(constraints) {

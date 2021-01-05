@@ -51,9 +51,13 @@ fun GamesListContent(viewModel: GamesListViewModel) {
         )
         Spacer(modifier = Modifier.size(20.dp))
         Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Map(mapLocation)
+            if(games == null) {
+                Map(mapLocation, listOf())
+            } else {
+                games?.let { Map(mapLocation, it) } //need to use let because of games property delegation
+            }
             Spacer(modifier = Modifier.size(30.dp))
-            games?.let { GamesList(it, location) } //need to use let because of games property delegation
+            games?.let { GamesList(it, location) }
         }
     }
 }

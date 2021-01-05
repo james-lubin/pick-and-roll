@@ -17,6 +17,4 @@ data class Game (
     val photoUrl: String? = null,
     val type: GameType? = null,
     val notes: String? = null
-) {
-
-}
+)
