@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             PickAndRollTheme {
                 val gamesListViewModel: GamesListViewModel by viewModels()
-                NavGraph(gamesListViewModel = gamesListViewModel)
-//                NavGraph(Destinations.GAMES_LIST_ROUTE, gamesListViewModel) //TODO: replace with this line when done testing
+//                NavGraph(gamesListViewModel = gamesListViewModel)
+                NavGraph(Destinations.GAMES_LIST_ROUTE, gamesListViewModel) //TODO: replace with this line when done testing
             }
         }
     }

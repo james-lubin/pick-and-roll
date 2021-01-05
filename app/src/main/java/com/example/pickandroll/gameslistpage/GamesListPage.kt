@@ -4,6 +4,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.util.Log
 import android.widget.Space
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -59,7 +60,7 @@ fun GamesListContent(viewModel: GamesListViewModel) {
 
 @Composable
 fun GamesList(games: List<Game>, userLocation: Location?) {
-    Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+    ScrollableColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
         for (game in games) {
             var distance: Float? = null
             if (userLocation != null) {
