@@ -133,17 +133,3 @@ fun Fraction(numerator: String, denominator: String, modifier: Modifier = Modifi
     }
 }
 
-@Composable
-fun Distance(distance: Float, modifier: Modifier = Modifier, isMetric: Boolean = false) { //TODO: make metric an ambient
-    val decFormat = remember { DecimalFormat("#.#") }
-    val distanceText = remember { decFormat.format(distance) }
-    Row(verticalAlignment = Alignment.Bottom, modifier = modifier) {
-        Text(text = distanceText, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.width(3.dp))
-        if (isMetric) {
-            Text("km", fontSize = 12.sp)
-        } else {
-            Text("mi", fontSize = 12.sp)
-        }
-    }
-}

@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
 
     private fun loadGames(): List<Game> {
         return listOf(
-            Game("0", "North Hills Run", LatLng(38.95, -77.935242), 8, 2, genderRule = GenderRule.Men, lengthInHours = 5, type = GameType.FiveOnFive),
+            Game("0", "North Hills Run", LatLng(38.95, -77.935242), 8, 2, genderRule = GenderRule.Men, lengthInHours = 5, type = GameType.HalfCourt),
             Game("1", "Fort Totten Pickup", LatLng(38.9, -77.0), 4, 3, lengthInHours = 7, photoUrl = "https://images.unsplash.com/photo-1496033604106-04799291ee86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"),
             Game("2", "Wharf Street Park", LatLng(38.9, -77.1), 10, 5, competitionLevel = CompetitionLevel.Pro, type = GameType.FreePlay),
             Game("3", "Georgetown 21", LatLng(38.5, -77.0), 6, 3, lengthInHours = 1, photoUrl = "https://images.unsplash.com/photo-1591103877275-f62e20079e47?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1090&q=80"),

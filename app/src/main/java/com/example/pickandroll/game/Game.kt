@@ -4,7 +4,18 @@ import com.google.android.gms.maps.model.LatLng
 
 enum class GenderRule { Mixed, Women, Men}
 enum class CompetitionLevel { Beginner, Medium, Hard, SemiPro, Pro }
-enum class GameType { FreePlay, FiveOnFive, TwentyOne, Horse }
+enum class GameType { FreePlay, HalfCourt, FullCourt, TwentyOne, Horse;
+
+    fun displayValue(): String {
+        return when (this) {
+            FreePlay -> "free play"
+            HalfCourt -> "half court"
+            FullCourt -> "full court"
+            TwentyOne -> "21"
+            Horse -> "horse"
+        }
+    }
+}
 
 data class Game (
     val id: String,
