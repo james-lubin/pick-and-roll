@@ -9,7 +9,7 @@ import com.example.pickandroll.game.GameType
 import com.example.pickandroll.game.GenderRule
 import com.google.android.gms.maps.model.LatLng
 
-class GamesListViewModel : ViewModel() {
+class GamesViewModel : ViewModel() {
     val games: MutableLiveData<List<Game>> =
         MutableLiveData<List<Game>>().also {
             it.value = listOf()

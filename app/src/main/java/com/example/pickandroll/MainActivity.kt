@@ -7,15 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.pickandroll.gameslistpage.*
-import com.example.pickandroll.splashpage.SplashPage
 import com.example.pickandroll.ui.*
 
 private const val TAG : String = "MainActivity"
@@ -27,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PickAndRollTheme {
-                val gamesListViewModel: GamesListViewModel by viewModels()
-//                NavGraph(gamesListViewModel = gamesListViewModel)
-                NavGraph(Destinations.GAMES_LIST_ROUTE, gamesListViewModel) //TODO: replace with this line when done testing
+                val gamesViewModel: GamesViewModel by viewModels()
+                NavGraph(gamesViewModel = gamesViewModel)
+//                NavGraph(Destinations.GAMES_LIST_ROUTE, gamesListViewModel) //TODO: replace with this line when done testing
             }
         }
     }
@@ -75,8 +69,8 @@ class MainActivity : AppCompatActivity() {
     private fun updateLocation(location: Location) {
         Log.d(TAG, "updateLocation: Updating location with location: $location")
         val viewModel: MainViewModel by viewModels() //TODO: delete this when compose migration is done
-        val gamesListViewModel: GamesListViewModel by viewModels()
+        val gamesViewModel: GamesViewModel by viewModels()
         viewModel.updateLocation(location)
-        gamesListViewModel.updateLocation(location)
+        gamesViewModel.updateLocation(location)
     }
 }

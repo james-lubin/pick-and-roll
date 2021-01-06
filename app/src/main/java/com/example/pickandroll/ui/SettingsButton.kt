@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.pickandroll.R
 
 @Composable
-fun SettingsButton(onClick: () -> Unit, modifier: Modifier) {
+fun SettingsButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     val settingsIcon = loadVectorResource(R.drawable.ic_settings_icon)
     Surface(color = Color.Transparent, modifier = modifier
         .size(40.dp)

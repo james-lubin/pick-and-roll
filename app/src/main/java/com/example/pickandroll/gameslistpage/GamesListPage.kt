@@ -22,7 +22,7 @@ import com.example.pickandroll.ui.SettingsButton
 private const val TAG = "GamesListPage"
 
 @Composable
-fun GamesListPage(viewModel: GamesListViewModel, viewGame: () -> Unit) {
+fun GamesListPage(viewModel: GamesViewModel, viewGame: () -> Unit) {
     Surface( //TODO: extract out this background somehow since every page will need it duplicate[1]
         color = MaterialTheme.colors.background,
         contentColor = MaterialTheme.colors.onBackground,
@@ -35,7 +35,7 @@ fun GamesListPage(viewModel: GamesListViewModel, viewGame: () -> Unit) {
 }
 
 @Composable
-fun GamesListContent(viewModel: GamesListViewModel, viewGame: () -> Unit) {
+fun GamesListContent(viewModel: GamesViewModel, viewGame: () -> Unit) {
     val location: Location? by viewModel.location.observeAsState()
     val games: List<Game>? by viewModel.games.observeAsState()
     var mapLocation = remember { Location(LocationManager.PASSIVE_PROVIDER) } //should be init to lat/lng (0.0, 0.0)
@@ -44,10 +44,9 @@ fun GamesListContent(viewModel: GamesListViewModel, viewGame: () -> Unit) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        SettingsButton (
-            onClick = { Log.d(TAG, "Settings icon clicked.") },
-            modifier = Modifier.align(Alignment.End)
-        )
+        SettingsButton (modifier = Modifier.align(Alignment.End)) {
+            Log.d(TAG, "Settings icon clicked.")
+        }
         Spacer(modifier = Modifier.size(20.dp))
         Column(modifier = Modifier.align(Alignment.CenterHorizontally)) {
             if(games == null) {
@@ -62,7 +61,7 @@ fun GamesListContent(viewModel: GamesListViewModel, viewGame: () -> Unit) {
 }
 
 @Composable
-fun GamesList(games: List<Game>, userLocation: Location?, viewModel: GamesListViewModel, viewGame: () -> Unit) {
+fun GamesList(games: List<Game>, userLocation: Location?, viewModel: GamesViewModel, viewGame: () -> Unit) {
     ScrollableColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
         for (game in games) {
             var distance: Float? = null

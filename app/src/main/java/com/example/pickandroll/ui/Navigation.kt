@@ -7,7 +7,7 @@ import androidx.navigation.compose.*
 import com.example.pickandroll.creategame.CreateGame
 import com.example.pickandroll.gamepage.GamePage
 import com.example.pickandroll.gameslistpage.GamesListPage
-import com.example.pickandroll.gameslistpage.GamesListViewModel
+import com.example.pickandroll.gameslistpage.GamesViewModel
 import com.example.pickandroll.splashpage.SplashPage
 
 object Destinations {
@@ -18,7 +18,7 @@ object Destinations {
 }
 
 @Composable
-fun NavGraph(startDestination: String = Destinations.SPLASH_PAGE_ROUTE, gamesViewModel: GamesListViewModel) {
+fun NavGraph(startDestination: String = Destinations.SPLASH_PAGE_ROUTE, gamesViewModel: GamesViewModel) {
     val navController = rememberNavController()
     val actions = remember(navController) { Actions(navController) }
 
