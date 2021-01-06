@@ -15,6 +15,7 @@ import androidx.compose.ui.res.DeferredResource
 import androidx.compose.ui.res.loadVectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pickandroll.R
@@ -22,6 +23,7 @@ import java.text.DecimalFormat
 
 private const val TAG = "PickAndRollButton"
 
+/* TODO: duplicate[2] */
 @Composable
 fun PrimaryButton(
     buttonText: String,
@@ -56,6 +58,7 @@ fun PrimaryButton(
 
 /*TODO: Remove duplicate logic from PrimaryButton by using the slot pattern,
 TODO: on first attempt, this worked except that I couldnt get constraintLayout to layout the composables as they should've been laid out
+TODO: duplicate[2]
 */
 @Composable
 fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxParticipants: Int, onClick: () -> Unit) {
@@ -76,7 +79,6 @@ fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxPar
             end.linkTo(textRef.start, 35.dp) //TODO: fix spacing by linking the start to the parent's start (currently not working, bugged?)
             centerVerticallyTo(parent)
         }
-
         constrain(distanceRef) {
             end.linkTo(parent.end)
             centerVerticallyTo(parent)
@@ -107,6 +109,7 @@ fun GameButton(gameTitle: String, distance: Float?, curParticipants: Int, maxPar
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .width(150.dp) //TODO: try to get this to work without a constant width
                     .layoutId(textTag)
