@@ -1,4 +1,4 @@
-package com.example.pickandroll.splashpage
+package com.example.pickandroll.splashscreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme

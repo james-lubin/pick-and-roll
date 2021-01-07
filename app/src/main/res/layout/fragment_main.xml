@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#BCBCBC"
-    tools:context=".gameslistpage.MainFragment">
+    tools:context=".gameslistscreen.MainFragment">
 
     <fragment
         android:id="@+id/mapFragment"

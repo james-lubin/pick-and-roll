@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.setContent
 import androidx.core.app.ActivityCompat
-import com.example.pickandroll.gameslistpage.*
+import com.example.pickandroll.gameslistscreen.*
 import com.example.pickandroll.ui.*
 
 private const val TAG : String = "MainActivity"

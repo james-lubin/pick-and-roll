@@ -5,10 +5,10 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.pickandroll.creategame.CreateGame
-import com.example.pickandroll.gamepage.GamePage
-import com.example.pickandroll.gameslistpage.GamesListPage
-import com.example.pickandroll.gameslistpage.GamesViewModel
-import com.example.pickandroll.splashpage.SplashPage
+import com.example.pickandroll.gamescreen.GamePage
+import com.example.pickandroll.gameslistscreen.GamesListPage
+import com.example.pickandroll.gameslistscreen.GamesViewModel
+import com.example.pickandroll.splashscreen.SplashPage
 
 object Destinations {
     const val SPLASH_PAGE_ROUTE = "splash-page"

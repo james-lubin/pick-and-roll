@@ -1,4 +1,4 @@
-package com.example.pickandroll.gamepage
+package com.example.pickandroll.gamescreen
 
 import android.location.Location
 import androidx.compose.foundation.Image
@@ -21,7 +21,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.example.pickandroll.R
 import com.example.pickandroll.game.Game
-import com.example.pickandroll.gameslistpage.GamesViewModel
+import com.example.pickandroll.gameslistscreen.GamesViewModel
 import com.example.pickandroll.ui.MAIN_ELEMENT_SIZE
 import com.example.pickandroll.ui.transparentWhite
 import com.skydoves.landscapist.glide.GlideImage

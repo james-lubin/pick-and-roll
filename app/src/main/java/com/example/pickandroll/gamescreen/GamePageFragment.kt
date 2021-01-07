@@ -1,4 +1,4 @@
-package com.example.pickandroll.gamepage
+package com.example.pickandroll.gamescreen
 
 import android.graphics.Typeface
 import android.location.Location
@@ -7,13 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.pickandroll.game.Game
 import com.example.pickandroll.R
 import com.example.pickandroll.databinding.FragmentGamePageBinding
-import com.example.pickandroll.gameslistpage.MainViewModel
+import com.example.pickandroll.gameslistscreen.MainViewModel
 import com.example.pickandroll.game.metersToMiles
 import java.text.DecimalFormat
 

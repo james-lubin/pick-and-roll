@@ -1,10 +1,10 @@
-package com.example.pickandroll.gamepage
+package com.example.pickandroll.gamescreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
 
-class GamePageViewModel : ViewModel() {
+class GameScreenViewModel : ViewModel() {
 
     fun getGamePageName(): LiveData<String> {
         return MutableLiveData("North Hills Run")
