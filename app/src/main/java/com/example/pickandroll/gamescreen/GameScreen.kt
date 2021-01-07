@@ -93,7 +93,7 @@ fun DetailsList(game: Game, location: Location?) {
     ScrollableColumn {
         if (location != null) {
             DetailItem(R.drawable.ic_distance, "Distance") {
-                Distance(distance = distance)
+                Distance(distance = distance, color = MaterialTheme.colors.primaryVariant, digitsFontWeight = FontWeight.Normal)
             }
         }
     }
@@ -109,12 +109,12 @@ fun DetailItem(iconId: Int, title: String, text: String) {
 @Composable
 fun DetailItem(iconId: Int, title: String, content: @Composable () -> Unit) {
     val icon = loadVectorResource(iconId)
-    Row {
-        Surface(color = Color.Transparent, modifier = Modifier.size(20.dp)) {
+    Row(modifier = Modifier.padding(vertical = 30.dp)) {
+        Surface(color = Color.Transparent, modifier = Modifier.size(60.dp)) {
             icon.resource.resource?.let { Image(it) }
         }
         Column {
-            Text(text = title, fontWeight = FontWeight.Bold)
+            Text(text = title, fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primaryVariant)
             content()
         }
     }
