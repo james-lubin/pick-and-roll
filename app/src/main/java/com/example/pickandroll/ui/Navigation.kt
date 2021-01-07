@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.pickandroll.creategame.CreateGame
+import com.example.pickandroll.creategamescreen.CreateGame
 import com.example.pickandroll.gamescreen.GamePage
 import com.example.pickandroll.gameslistscreen.GamesListPage
 import com.example.pickandroll.gameslistscreen.GamesViewModel

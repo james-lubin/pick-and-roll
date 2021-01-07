@@ -1,4 +1,4 @@
-package com.example.pickandroll
+package com.example.pickandroll.entry
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -68,9 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateLocation(location: Location) {
         Log.d(TAG, "updateLocation: Updating location with location: $location")
-        val viewModel: MainViewModel by viewModels() //TODO: delete this when compose migration is done
         val gamesViewModel: GamesViewModel by viewModels()
-        viewModel.updateLocation(location)
         gamesViewModel.updateLocation(location)
     }
 }

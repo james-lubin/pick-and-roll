@@ -1,4 +1,4 @@
-package com.example.pickandroll.creategame
+package com.example.pickandroll.creategamescreen
 
 import androidx.compose.runtime.Composable
 
