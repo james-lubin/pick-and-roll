@@ -26,6 +26,7 @@ import com.example.pickandroll.ui.MAIN_ELEMENT_SIZE
 import com.example.pickandroll.ui.transparentWhite
 import com.skydoves.landscapist.glide.GlideImage
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import com.example.pickandroll.game.getDistance
 import com.example.pickandroll.ui.Distance
@@ -69,19 +70,19 @@ fun GamesPageContent(viewModel: GamesViewModel) {
 
 @Composable
 fun Description(game: Game) {
-    val annotatedString: AnnotatedString = with(AnnotatedString.Builder()) {
-        pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
-        append(game.title)
-        pop()
-        game.type?.let {gameType ->
-            append(" is a ")
-            append(gameType.displayValue())
-            append(" session.")
-        }
-        toAnnotatedString()
-    }
-    
-    Text(text = annotatedString, color = Color.White)
+    Text(
+        buildAnnotatedString {
+            pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+            append(game.title)
+            pop()
+            game.type?.let {gameType ->
+                append(" is a ")
+                append(gameType.displayValue())
+                append(" session.")
+            }
+        },
+        color = MaterialTheme.colors.primaryVariant
+    )
 }
 
 @Composable
