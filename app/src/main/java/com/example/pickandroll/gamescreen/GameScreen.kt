@@ -15,8 +15,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.res.loadVectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,6 +34,7 @@ import com.example.pickandroll.game.getDistance
 import com.example.pickandroll.gameslistscreen.GamesViewModel
 import com.example.pickandroll.ui.Distance
 import com.example.pickandroll.ui.MAIN_ELEMENT_SIZE
+import com.example.pickandroll.ui.PrimaryButton
 import com.example.pickandroll.ui.transparentWhite
 import com.skydoves.landscapist.glide.GlideImage
 import java.time.Duration
@@ -52,27 +58,58 @@ fun GamePage(viewModel: GamesViewModel) {
     }
 }
 
+//TODO: Claim spot button note: It might be possible using constraint layout or the layout modifier/composable
+//TODO: If using layout, look at the place() method(As opposed to placeRelative)
+//TODO: Codelab: https://developer.android.com/codelabs/jetpack-compose-layouts#8
 @Composable
 fun GamesPageContent(viewModel: GamesViewModel) {
     val selectedGame by viewModel.selectedGame.observeAsState()
     val location by viewModel.location.observeAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 30.dp)
-    ) {
-        selectedGame?.photoUrl?.let {
-            GameImage(it, modifier = Modifier.padding(vertical = 30.dp))
-        }
-        if (selectedGame?.photoUrl == null) {
-            //TODO: show map instead of the image not found icon
-            ImageNotFound(modifier = Modifier.padding(vertical = 30.dp))
+    ConstraintLayout {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
+        ) {
+            selectedGame?.photoUrl?.let {
+                GameImage(it, modifier = Modifier.padding(vertical = 30.dp))
+            }
+            if (selectedGame?.photoUrl == null) {
+                //TODO: show map instead of the image not found icon
+                ImageNotFound(modifier = Modifier.padding(vertical = 30.dp))
+            }
+
+            selectedGame?.let {
+                Description(it)
+                DetailsList(it, location)
+            }
         }
 
-        selectedGame?.let {
-            Description(it)
-            DetailsList(it, location)
+        val claimSpotSection = createRef()
+        ClaimSpotSection(Modifier.constrainAs(claimSpotSection) { bottom.linkTo(parent.bottom) } )
+    }
+}
+
+@Composable
+fun ClaimSpotSection(modifier: Modifier = Modifier) {
+    Surface (
+        color = Color.Transparent,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .drawBehind {
+                drawRect(
+                    Brush.linearGradient(
+                        colors = listOf(Color.Black, Color.Transparent),
+                        start = Offset(size.width / 2, size.height),
+                        end = Offset(size.width / 2, 0f)
+                    )
+                )
+            }
+    ) {
+        PrimaryButton(buttonText = "Claim Spot", isVariant = true, modifier = Modifier.padding(top = 50.dp)) {
+            Log.d(TAG, "ClaimSpotSection: Spot claimed!")
         }
     }
 }
@@ -108,9 +145,8 @@ fun DetailsList(game: Game, location: Location?) {
             }
             DetailItem(iconId = R.drawable.ic_face, title = "Gender", text = game.genderRule.toString())
             DetailItem(iconId = R.drawable.ic_basketball, title = "Difficulty", text = game.competitionLevel.toString())
-            DetailItem(iconId = R.drawable.ic_clock, title = "Time Remaining") {
-                TimeRemaining(game.endTime())
-            }
+            DetailItem(iconId = R.drawable.ic_clock, title = "Time Remaining") { TimeRemaining(game.endTime()) }
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
@@ -118,9 +154,7 @@ fun DetailsList(game: Game, location: Location?) {
 @Composable
 fun TimeRemaining(endTime: LocalTime) {
     val now = remember { LocalTime.now().truncatedTo(ChronoUnit.MINUTES) }
-    Log.d(TAG, "End time: $endTime")
     val timeRemaining: Duration = remember { Duration.between(now, endTime) }
-    Log.d(TAG, "Time remaining: $timeRemaining")
     val hours = timeRemaining.toHours()
     val minutes = timeRemaining.toMinutesPart()
     val formattedTimeRemaining = remember { formattedDuration(hours, minutes) }

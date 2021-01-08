@@ -34,7 +34,7 @@ fun SplashPage(viewAllGames: () -> Unit, createGame: () -> Unit) {
 
             Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
                 PrimaryButton("Join Game") { viewAllGames() }
-                PrimaryButton("Create A Game", true) { createGame() }
+                PrimaryButton(buttonText = "Create A Game", isVariant = true) { createGame() }
             }
         }
     }

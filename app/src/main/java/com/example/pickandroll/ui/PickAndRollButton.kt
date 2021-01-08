@@ -27,6 +27,7 @@ private const val TAG = "PickAndRollButton"
 @Composable
 fun PrimaryButton(
     buttonText: String,
+    modifier: Modifier = Modifier,
     isVariant: Boolean = false,
     onClick: () -> Unit
 ) {
@@ -43,7 +44,7 @@ fun PrimaryButton(
             backgroundColor = backgroundColor,
             contentColor = MaterialTheme.colors.onPrimary
         ),
-        modifier = Modifier
+        modifier = modifier
             .width(MAIN_ELEMENT_SIZE)
             .height(60.dp)
     ) {
