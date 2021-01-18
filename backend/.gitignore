@@ -1,4 +1,6 @@
 /venv/
 /venv
+/instance
 .vscode
 *.pyc
+prepare-flask.sh
