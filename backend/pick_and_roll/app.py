@@ -1,4 +1,4 @@
-import config
+from pick_and_roll.config import *
 from flask import Flask, session, render_template, request, flash, redirect, json, jsonify
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -6,14 +6,14 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 def create_app(test_config=None):
     '''Takes optional test configuration, then creates the flask app.'''
     app = Flask(__name__)
-    app.config.from_mapping( #Set secret key to a default value. In prod this should be replaced with a random value 
+    app.config.from_mapping(
         FLASK_ENV = 'development',
         SECRET_KEY='dev',
     )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_object(config.currentConfig())
+        app.config.from_object(current_config())
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -35,5 +35,3 @@ def create_app(test_config=None):
         })
 
     return app
-
-create_app()

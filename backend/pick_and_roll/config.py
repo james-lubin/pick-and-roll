@@ -23,7 +23,7 @@ class DevConfig(Config):
     SECRET_KEY = environ.get('DEV_SECRET_KEY')
     DATABASE_URI = environ.get('DEV_DATABASE_URI')
 
-def currentConfig():
+def current_config():
     environment = environ.get("APP_ENV")
     if not environment:
         raise RuntimeError("APP_ENV environment variable is not set")

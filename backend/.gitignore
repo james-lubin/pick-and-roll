@@ -4,3 +4,4 @@
 .vscode
 *.pyc
 prepare-flask.sh
+*.egg-info
